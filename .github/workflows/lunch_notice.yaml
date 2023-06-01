@@ -2,7 +2,7 @@ name: lunch notices
 
 on:
   schedule:
-  - cron: '10 2 * * *'
+  - cron: '0 2 * * *'
 
 jobs:
   build:
