@@ -39,7 +39,7 @@ if [[ $DAY_WEEK -ne 0 && $DAY_WEEK -ne 6 ]];then
 fi
 
 # 判断是否为法定工作日
-for dat in LEGAL_WORKING_DAYS
+for dat in $LEGAL_WORKING_DAYS
 do
 	if [[ $dat = $MONTH_AND_DAY ]];then
 		echo "$(date +%FT%H:%M:%SZ) legal working days, set IS_WORK_DAY to true"
@@ -48,7 +48,7 @@ do
 done
 
 # 判断是否为法定假期
-for dat in OFFICIAL_HOLIDAYS
+for dat in $OFFICIAL_HOLIDAYS
 do
 	if [[ $dat = $MONTH_AND_DAY ]];then
 		echo "$(date +%FT%H:%M:%SZ) official holidays, set IS_WORK_DAY to false"
