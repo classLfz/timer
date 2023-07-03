@@ -69,8 +69,8 @@ fi
 RETRY_COUNT=0
 # 最大重试次数
 MAX_RETRY_COUNT=50
-# 休眠间隔
-SLEEP_INTERVAL=59
+# 休眠间隔，秒
+SLEEP_INTERVAL=60
 # 到时间啦
 IS_TIME=false
 # 正常情况下，要到达时间(单位秒)

@@ -1,29 +1,30 @@
-name: lunch notices
+# 已转为私有部署
+# name: lunch notices
 
-on:
-  schedule:
-  - cron: '0 2 * * *'
+# on:
+#   schedule:
+#   - cron: '0 2 * * *'
 
-jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+# jobs:
+#   build:
+#     runs-on: ${{ matrix.os }}
 
-    strategy:
-      matrix:
-        os:
-        - ubuntu-latest
+#     strategy:
+#       matrix:
+#         os:
+#         - ubuntu-latest
 
-    steps:
-    - name: Pull repository
-      uses: actions/checkout@v3
+#     steps:
+#     - name: Pull repository
+#       uses: actions/checkout@v3
 
-    - name: Lunch notice
-      run: |
-        export NOTICE_URL=$SLACK_NOTICE_URL
-        export MEITUAN_HB_URL=$MEITUAN_HB_URL
-        export QWEATHER_URL=$QWEATHER_URL
-        ./weekday_lunch_notice.sh
-      env:
-        SLACK_NOTICE_URL: ${{ secrets.SLACK_NOTICE_URL }}
-        QWEATHER_URL: ${{ secrets.QWEATHER_URL }}
-        MEITUAN_HB_URL: ${{ vars.MEITUAN_HB_URL }}
+#     - name: Lunch notice
+#       run: |
+#         export NOTICE_URL=$SLACK_NOTICE_URL
+#         export MEITUAN_HB_URL=$MEITUAN_HB_URL
+#         export QWEATHER_URL=$QWEATHER_URL
+#         ./weekday_lunch_notice.sh
+#       env:
+#         SLACK_NOTICE_URL: ${{ secrets.SLACK_NOTICE_URL }}
+#         QWEATHER_URL: ${{ secrets.QWEATHER_URL }}
+#         MEITUAN_HB_URL: ${{ vars.MEITUAN_HB_URL }}
