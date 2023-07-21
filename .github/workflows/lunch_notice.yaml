@@ -21,10 +21,20 @@
 #     - name: Lunch notice
 #       run: |
 #         export NOTICE_URL=$SLACK_NOTICE_URL
+#         export EXTREME_WEATHER_TARGET_TIME=$EXTREME_WEATHER_TARGET_TIME
+#         export NOTICE_URL=$SLACK_NOTICE_URL
 #         export MEITUAN_HB_URL=$MEITUAN_HB_URL
 #         export QWEATHER_URL=$QWEATHER_URL
-#         ./weekday_lunch_notice.sh
+#         export EXTREME_WEATHER_TEXTS=$EXTREME_WEATHER_TEXTS
+#         export LEGAL_WORKING_DAYS=$LEGAL_WORKING_DAYS
+#         export OFFICIAL_HOLIDAYS=$OFFICIAL_HOLIDAYS
+#         ./weekday_lunch_notice_wait.sh
 #       env:
 #         SLACK_NOTICE_URL: ${{ secrets.SLACK_NOTICE_URL }}
 #         QWEATHER_URL: ${{ secrets.QWEATHER_URL }}
+#         TARGET_TIME: ${{ secrets.TARGET_TIME }}
+#         EXTREME_WEATHER_TARGET_TIME: ${{ secrets.EXTREME_WEATHER_TARGET_TIME }}
 #         MEITUAN_HB_URL: ${{ vars.MEITUAN_HB_URL }}
+#         EXTREME_WEATHER_TEXTS: ${{ vars.EXTREME_WEATHER_TEXTS }}
+#         LEGAL_WORKING_DAYS: ${{ vars.LEGAL_WORKING_DAYS }}
+#         OFFICIAL_HOLIDAYS: ${{ vars.OFFICIAL_HOLIDAYS }}

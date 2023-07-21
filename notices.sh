@@ -13,19 +13,26 @@ function bookLunchNotice () {
 	echo "$(date +%FT%H:%M:%SZ) bookLunchNotice result: $RES";
 }
 
+# 美团周三外卖节
 function wedMeituanNotice () {
-	echo "$(date +%FT%H:%M:%SZ) MEITUAN_HB_URL: $MEITUAN_HB_URL"
-	RES=$(curl -X POST \
-	-H 'Content-type: application/json' \
-	--data '{"text":"今天周三，美团外卖节 点我领取大额红包'$MEITUAN_HB_URL'"}' \
-	$NOTICE_URL)
-	echo "$(date +%FT%H:%M:%SZ) wedMeituanNotice result: $RES";
+	if [[ $(TZ=$TZ date +%w) -eq 3 ]];then
+		echo "$(date +%FT%H:%M:%SZ) wednesday, here is an meituan notice";
+		echo "$(date +%FT%H:%M:%SZ) MEITUAN_HB_URL: $MEITUAN_HB_URL"
+		RES=$(curl -X POST \
+		-H 'Content-type: application/json' \
+		--data '{"text":"今天周三，美团外卖节 点我领取大额红包'$MEITUAN_HB_URL'"}' \
+		$NOTICE_URL)
+		echo "$(date +%FT%H:%M:%SZ) wedMeituanNotice result: $RES";
+	fi
 }
 
+# 美团18号满38-18活动
 function eighteenMeituanNotice () {
-	RES=$(curl -X POST \
-	-H 'Content-type: application/json' \
-	--data '{"text":"今天18号，美团神券节，是用38-18的日子啦"}' \
-	$NOTICE_URL)
-	echo "$(date +%FT%H:%M:%SZ) eighteenMeituanNotice result: $RES";
+	if [[ $(TZ=$TZ date +%d) = "18" ]];then
+		RES=$(curl -X POST \
+		-H 'Content-type: application/json' \
+		--data '{"text":"今天18号，美团神券节，是用38-18的日子啦"}' \
+		$NOTICE_URL)
+		echo "$(date +%FT%H:%M:%SZ) eighteenMeituanNotice result: $RES";
+	fi
 }

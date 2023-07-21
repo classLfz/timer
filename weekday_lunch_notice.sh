@@ -7,6 +7,16 @@
 # 工作日则设置轮询定时器，隔一段时间判断是否抵达目标时间点，同时记录重试次数
 # 无论是抵达预期时间点还是重试次数抵达最大值，都执行目标任务
 # 预期时间点会根据查询当地天气情况有变动，如果遇上下雨等天气，则提前提醒点外卖
+#
+# 环境变量说明
+# - NOTICE_URL 通知内容发送的URL
+# - QWEATHER_URL 查询当地天气状况的URL
+# - EXTREME_WEATHER_TEXTS 极端天气状态描述文本列表，如 "暴雨 雷雨 大雪"
+# - LEGAL_WORKING_DAYS 调休补班日期列表，如 "09-30 06-23"
+# - OFFICIAL_HOLIDAYS 法定节假日列表，如 "10-01 10-02"
+# - TARGET_TIME 一般情况下的触发通知时间，如 "10:50:00"
+# - EXTREME_WEATHER_TARGET_TIME 极端天气情况下的触发通知时间，如 "10:30:00"
+# - MEITUAN_HB_URL 美团红包链接
 ###
 
 source ./notices.sh
@@ -25,10 +35,6 @@ IS_WORK_DAY=false
 MONTH_AND_DAY=$(TZ=$TZ date +%m-%d)
 # 星期几 0-6（星期日到星期六）
 DAY_WEEK=$(TZ=$TZ date +%w)
-# 法定工作日（2023年下半年, MM-DD）
-LEGAL_WORKING_DAYS='06-25 10-07 10-08'
-# 法定假期(2023年下半年, MM-DD)
-OFFICIAL_HOLIDAYS='06-22 06-23 06-24 09-29 10-02 10-03 10-04 10-05 10-06'
 echo "$(date +%FT%H:%M:%SZ) MONTH_AND_DAY: $MONTH_AND_DAY"
 echo "$(date +%FT%H:%M:%SZ) DAY_WEEK: $DAY_WEEK"
 
@@ -74,22 +80,21 @@ SLEEP_INTERVAL=60
 # 到时间啦
 IS_TIME=false
 # 正常情况下，要到达时间(单位秒)
-TARGET_TIME=$(TZ=$TZ date -d "$(TZ=$TZ date +%F" 10:50:00")" +%s)
+TARGET_TIME=$(TZ=$TZ date -d "$(TZ=$TZ date +%F" $TARGET_TIME")" +%s)
 
-# 当前天气信息（和风天气免费版）
+# 当前天气信息
 WEATHER_INFO=$(curl -L -X GET --compressed $QWEATHER_URL)
 echo "$(date +%FT%H:%M:%SZ) WEATHER_INFO: $WEATHER_INFO";
 WEATHER_TEXT=$(echo $WEATHER_INFO | jq -r ".now.text")
 echo "$(date +%FT%H:%M:%SZ) WEATHER_TEXT: $WEATHER_TEXT";
-# 极端天气列表
-EXTREME_WEATHER_TEXTS='强阵雨 雷阵雨 强雷阵雨 雷阵雨伴有冰雹 中雨 大雨 极端降雨 暴雨 大暴雨 特大暴雨 冻雨 中到大雨 大到暴雨 暴雨到大暴雨 大暴雨到特大暴雨 雨 小雪 中雪 大雪 暴雪 雨夹雪 雨雪天气 阵雨夹雪 阵雪 小到中雪 中到大雪 大到暴雪 阵雨夹雪'
+
 # 极端天气下，提前提醒
 IS_EXTREME_WEATHER_DAY=false
 for text in $EXTREME_WEATHER_TEXTS
 do
 	if [[ $text = $WEATHER_TEXT ]];then
 		echo "$(date +%FT%H:%M:%SZ) extreme weather desc: $WEATHER_TEXT";
-		TARGET_TIME=$(TZ=$TZ date -d "$(TZ=$TZ date +%F" 10:40:00")" +%s)
+		TARGET_TIME=$(TZ=$TZ date -d "$(TZ=$TZ date +%F" $EXTREME_WEATHER_TARGET_TIME")" +%s)
 		IS_EXTREME_WEATHER_DAY=true
 	fi
 done
@@ -124,13 +129,7 @@ if $IS_TIME;then
 	echo "$(date +%FT%H:%M:%SZ) time to book lunch";
 	bookLunchNotice
 	# 美团周三外卖节
-	if [[ $DAY_WEEK -eq 3 ]];then
-		echo "$(date +%FT%H:%M:%SZ) wednesday, here is an meituan notice";
-		wedMeituanNotice
-	fi
+	wedMeituanNotice
 	# 美团18号满38-18活动
-	if [[ $(TZ=$TZ date +%d) = "18" ]];then
-		echo "$(date +%FT%H:%M:%SZ) day 18th, here is an meituan notice";
-		eighteenMeituanNotice
-	fi
+	eighteenMeituanNotice
 fi
