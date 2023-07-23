@@ -7,9 +7,9 @@ source ./jobs.sh
 # LEGAL_WORKING_DAYS='08-01'
 # OFFICIAL_HOLIDAYS='08-01'
 # QWEATHER_URL='https://devapi.qweather.com/v7/weather/now?location=113.3842,22.9377&key='
-# JOB1='10:50:00||slackNotice||NOTICE_TEXT=点外卖啦！'
-# JOB2='10:20:00||specialDayOfWeekSlackNotice||NOTICE_TEXT=周三啦;SPECIAL_DOW=3;'
-# JOB3='10:40:00||extremeWeatherSlackNotice||NOTICE_TEXT=今天天气不佳，担心送餐高峰影响的话，现在可以点外卖了～;'
+# JOB1='10:50:00///slackNotice///NOTICE_TEXT=点外卖啦！'
+# JOB2='10:20:00///specialDayOfWeekSlackNotice///NOTICE_TEXT=周三啦;SPECIAL_DOW=3;'
+# JOB3='10:40:00///extremeWeatherSlackNotice///NOTICE_TEXT=今天天气不佳，担心送餐高峰影响的话，现在可以点外卖了～;'
 
 # 时区
 TZ=UTC-8
@@ -91,7 +91,7 @@ do
 			continue
 		fi
 		echo "$(date +%FT%H:%M:%SZ) job: $job"
-		jobArr=(${job//||/ })
+		jobArr=(${job//\/\/\// })
 		ts=${jobArr[0]}
 		targetTs=$(TZ=$TZ date -d "$(TZ=$TZ date +%F" $ts")" +%s)
 		method=${jobArr[1]}
@@ -127,7 +127,7 @@ do
 
 	for j in ${DONE_JOBS_ARR[@]}
 	do
-		echo "$(date +%FT%H:%M:%SZ)done job: $j"
+		echo "$(date +%FT%H:%M:%SZ) done job: $j"
 	done
 
 	if [[ ${#DONE_JOBS_ARR[@]} != ${#JOBS_ARR[@]} ]];
