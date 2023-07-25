@@ -14,7 +14,7 @@
 # - EXTREME_WEATHER_TEXTS 极端天气状态描述文本列表，如 "暴雨 雷雨 大雪"
 # - LEGAL_WORKING_DAYS 调休补班日期列表，如 "09-30 06-23"
 # - OFFICIAL_HOLIDAYS 法定节假日列表，如 "10-01 10-02"
-# - TARGET_TIME 一般情况下的触发通知时间，如 "10:50:00"
+# - NORMAL_TARGET_TIME 一般情况下的触发通知时间，如 "10:50:00"
 # - EXTREME_WEATHER_TARGET_TIME 极端天气情况下的触发通知时间，如 "10:30:00"
 # - MEITUAN_HB_URL 美团红包链接
 ###
@@ -80,7 +80,7 @@ SLEEP_INTERVAL=60
 # 到时间啦
 IS_TIME=false
 # 正常情况下，要到达时间(单位秒)
-TARGET_TIME=$(TZ=$TZ date -d "$(TZ=$TZ date +%F" $TARGET_TIME")" +%s)
+TARGET_TIME=$(TZ=$TZ date -d "$(TZ=$TZ date +%F" $NORMAL_TARGET_TIME")" +%s)
 
 # 当前天气信息
 WEATHER_INFO=$(curl -L -X GET --compressed $QWEATHER_URL)
