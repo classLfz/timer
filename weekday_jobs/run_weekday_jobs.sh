@@ -120,9 +120,9 @@ do
 					specialDayOfWeekAndExtreWeatherSlackNotice
 				;;
 			esac
+			# 记录已经完成的任务
+			DONE_JOBS_ARR+=($job)
 		fi
-		# 记录已经完成的任务
-		DONE_JOBS_ARR+=($job)
 	done
 
 	for j in ${DONE_JOBS_ARR[@]}
