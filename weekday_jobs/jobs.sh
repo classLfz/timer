@@ -29,7 +29,7 @@ function extremeWeatherSlackNotice () {
 			IS_EXTREME_WEATHER_DAY=true
 		fi
 	done
-	if [[ $IS_EXTREME_WEATHER_DAY ]];
+	if $IS_EXTREME_WEATHER_DAY;
 	then
 		slackNotice
 	fi
