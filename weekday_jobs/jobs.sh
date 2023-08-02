@@ -29,6 +29,7 @@ function extremeWeatherSlackNotice () {
 			IS_EXTREME_WEATHER_DAY=true
 		fi
 	done
+	echo "$(date +%FT%H:%M:%SZ) IS_EXTREME_WEATHER_DAY: $IS_EXTREME_WEATHER_DAY";
 	if $IS_EXTREME_WEATHER_DAY;
 	then
 		slackNotice
@@ -45,8 +46,11 @@ function specialDayOfWeekAndExtreWeatherSlackNotice () {
 			IS_EXTREME_WEATHER_DAY=true
 		fi
 	done
-	if [[ $IS_EXTREME_WEATHER_DAY && $(TZ=$TZ date +%w) -eq $SPECIAL_DOW ]];
-	then
-		slackNotice
+	echo "$(date +%FT%H:%M:%SZ) IS_EXTREME_WEATHER_DAY: $IS_EXTREME_WEATHER_DAY";
+	if $IS_EXTREME_WEATHER_DAY;then
+		if [[ $(TZ=$TZ date +%w) -eq $SPECIAL_DOW ]];
+		then
+			slackNotice
+		fi
 	fi
 }
